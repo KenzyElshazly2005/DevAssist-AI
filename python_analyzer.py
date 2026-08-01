@@ -2,7 +2,6 @@ import traceback
 import io
 from contextlib import redirect_stdout
 
-
 # ==========================================================
 # Analyze Python Code
 # ==========================================================
@@ -31,6 +30,8 @@ def python_analyze(code):
         return {
 
             "success": False,
+
+            "code": code,
 
             "error_type": type(error).__name__,
 
@@ -64,6 +65,8 @@ def python_analyze(code):
 
             "success": True,
 
+            "code": code,
+
             "error_type": None,
 
             "message":
@@ -87,6 +90,8 @@ def python_analyze(code):
         return {
 
             "success": False,
+
+            "code": code,
 
             "error_type": type(error).__name__,
 
