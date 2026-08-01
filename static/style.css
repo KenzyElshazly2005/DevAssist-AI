@@ -189,14 +189,6 @@
 
 
 
-
-.hidden{
-
-    display:none;
-
-}
-
-
 body{
 
     font-family: Arial, Helvetica, sans-serif;
@@ -371,10 +363,8 @@ textarea::placeholder {
 
 }
 
-.hidden {
-
-    display: none;
-
+.hidden{
+    display:none !important;
 }
 
 details{
@@ -782,7 +772,11 @@ body.dark .suggestions div:hover{
 
     display:flex;
 
-    justify-content:center;
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:10px;
 
     margin-top:20px;
 
@@ -795,8 +789,174 @@ body.dark .suggestions div:hover{
 }
 
 
-#analyzeBtn{
+/* ===================================
+   New Features
+=================================== */
 
-    display:none;
+
+/* Search Note */
+
+.search-note{
+
+    margin-top:12px;
+
+    font-size:14px;
+
+    color:#6B7280;
+
+    text-align:center;
 
 }
+
+
+body.dark .search-note{
+
+    color:#CBD5E1;
+
+}
+
+
+
+/* Loader */
+
+.loader{
+
+    margin-top:15px;
+
+    color:#4F7CFF;
+
+    font-weight:600;
+
+    font-size:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+}
+
+
+
+.loader i{
+
+    font-size:20px;
+
+}
+
+
+
+body.dark .loader{
+
+    color:#60A5FA;
+
+}
+
+
+
+/* Success Message */
+
+.success-message{
+
+    margin-top:15px;
+
+    color:#16A34A;
+
+    font-weight:600;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+    animation:successPop .4s ease;
+
+}
+
+
+
+.success-message i{
+
+    font-size:22px;
+
+}
+
+
+
+@keyframes successPop{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.8);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+
+
+body.dark .success-message{
+
+    color:#4ADE80;
+
+}
+
+
+
+/* Fix Code Button */
+
+
+#fixContainer{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:20px;
+
+}
+
+
+
+#fixBtn{
+
+    background:#10B981;
+
+    width:220px;
+
+}
+
+
+
+#fixBtn:hover{
+
+    background:#059669;
+
+}
+
+
+
+body.dark #fixBtn{
+
+    background:#34D399;
+
+    color:#0F172A;
+
+}
+
