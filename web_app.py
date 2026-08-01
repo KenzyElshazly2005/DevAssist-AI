@@ -2,16 +2,17 @@ from flask import Flask, render_template, request, jsonify
 
 from rag import search_error
 from python_analyzer import python_analyze
-
-
+from fixer import fix_python_code
 # ==========================================================
 # Flask App
 # ==========================================================
 
 app = Flask(__name__)
-print("Loading Flask...")
 
+print("Loading Flask...")
 print("Flask Ready.")
+
+
 # ==========================================================
 # Home Page
 # ==========================================================
@@ -66,7 +67,6 @@ def analyze():
 
         answer = search_error(
 
-
             language,
 
             user_input
@@ -74,9 +74,6 @@ def analyze():
         )
 
         print("RAG Search Finished.")
-
-
-        print("Response Sent Successfully.")
 
         return jsonify({
 
@@ -94,10 +91,7 @@ def analyze():
     if input_type == "code":
 
 
-
         if language != "python":
-
-            print("Response Sent Successfully.")
 
             return jsonify({
 
@@ -108,11 +102,13 @@ def analyze():
 
             })
 
+
         print("Running Python Analyzer...")
 
         result = python_analyze(
             user_input
         )
+
 
         print("Python Analyzer Finished.")
 
@@ -120,8 +116,6 @@ def analyze():
         if result["success"]:
 
 
-
-            print("Response Sent Successfully.")
             return jsonify({
 
                 "success": True,
@@ -143,6 +137,8 @@ def analyze():
 
 
             print("Searching RAG For Detected Error...")
+
+
             answer = search_error(
 
                 language,
@@ -150,6 +146,7 @@ def analyze():
                 result["error_type"]
 
             )
+
 
             print("RAG Finished.")
 
@@ -168,7 +165,6 @@ def analyze():
             }
 
 
-            print("Response Sent Successfully.")
             return jsonify({
 
                 "success": True,
@@ -177,7 +173,6 @@ def analyze():
 
             })
 
-    print("Response Sent Successfully.")
 
     return jsonify({
 
@@ -187,6 +182,44 @@ def analyze():
         "Invalid request."
 
     })
+
+
+
+# ==========================================================
+# Fix Code Request
+# ==========================================================
+
+@app.route("/fix", methods=["POST"])
+def fix_code():
+
+    print("\n====================================")
+    print("FIX CODE REQUEST")
+    print("====================================")
+
+
+    data = request.json
+
+
+    code = data.get("code")
+
+    error_type = data.get("error_type")
+
+    message = data.get("message")
+
+
+    print("Error Type :", error_type)
+
+    print("Message :", message)
+
+
+    result = fix_python_code(
+        code,
+        error_type,
+        message
+    )
+
+
+    return jsonify(result)
 
 
 # ==========================================================
