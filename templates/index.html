@@ -143,6 +143,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                         class="suggestions"
                     ></div>
 
+
+                    <p class="search-note">
+                        Or describe your problem below if you don't know the error name.
+                    </p>
+
                 </div>
 
 
@@ -189,6 +194,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                         class="suggestions"
                     ></div>
 
+
+                    <p class="search-note">
+                        Or describe your problem below if you don't know the error name.
+                    </p>
+
                 </div>
 
             </div>
@@ -206,17 +216,46 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             class="hidden card"
         >
 
-            <h2>Your Input</h2>
+            <h2 id="inputTitle">
+                Describe Your Problem
+            </h2>
 
             <textarea
                 id="userInput"
-                placeholder="Paste your code here..."
+                placeholder="Describe your problem or paste your code / error message here..."
             ></textarea>
-
             <div class="analyze-container">
+
+
+                <div
+                    id="loader"
+                    class="loader hidden"
+                >
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Analyzing...
+
+                </div>
+
+
                 <button id="analyzeBtn">
                     Analyze
                 </button>
+
+
+                <div
+                    id="successMessage"
+                    class="success-message hidden"
+                >
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    Analysis Completed
+
+                </div>
+
+
             </div>
 
         </section>
@@ -259,6 +298,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                     </p>
 
                 </div>
+
 
             </div>
 
@@ -337,42 +377,44 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     </div>
 
     <!-- =============================== -->
-<!-- Future Languages -->
-<!-- =============================== -->
+    <!-- Future Languages -->
+    <!-- =============================== -->
 
-<section class="card future-card">
+    <section class="card future-card">
 
-    <h2>🚀 Future Updates</h2>
+        <h2>🚀 Future Updates</h2>
 
-    <h3 class="future-title">
-        Future Programming Languages
-    </h3>
+        <h3 class="future-title">
+            Future Programming Languages
+        </h3>
 
-    <div class="future-list">
+        <div class="future-list">
 
-        <span>C++</span>
-        <span>SQL</span>
-        <span>JavaScript</span>
+            <span>C++</span>
+            <span>SQL</span>
+            <span>JavaScript</span>
 
-    </div>
+        </div>
 
-    <h3 class="future-title ai-title">
-        Future AI Technologies
-    </h3>
+        <h3 class="future-title ai-title">
+            Future AI Technologies
+        </h3>
 
-    <div class="future-list">
+        <div class="future-list">
 
-        <span>Machine Learning</span>
-        <span>Deep Learning</span>
-        <span>Computer Vision</span>
-        <span>NLP</span>
+            <span>Machine Learning</span>
+            <span>Deep Learning</span>
+            <span>Computer Vision</span>
+            <span>NLP</span>
 
-    </div>
+        </div>
 
-</section>
+    </section>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-</body>
+
+
+    </body>
 
 </html>
