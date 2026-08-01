@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, jsonify
 
 from rag import search_error
 from python_analyzer import python_analyze
-from fixer import fix_python_code
 # ==========================================================
 # Flask App
 # ==========================================================
@@ -212,14 +211,8 @@ def fix_code():
     print("Message :", message)
 
 
-    result = fix_python_code(
-        code,
-        error_type,
-        message
-    )
 
-
-    return jsonify(result)
+   
 
 
 # ==========================================================
