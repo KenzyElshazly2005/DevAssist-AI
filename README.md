@@ -68,33 +68,27 @@ The analyzer identifies:
 After detecting the error, the system uses RAG-based retrieval to provide a detailed explanation and troubleshooting guidance.
 
 
-The project uses a custom structured error knowledge base, embeddings, and FAISS vector search to efficiently retrieve relevant debugging information.
-
 
 ---
 
 # ✨ Features
 
-* 🔍 Interactive web-based developer assistant.
-* 🧩 Two analysis workflows:
+- 🔍 Interactive web-based developer assistant.
+- 🧩 Two analysis workflows:
   - Error Message Search for Python, Git, and HTTP.
   - Python Code Analysis for detecting code errors.
 
-
-* 🐍 Python syntax and runtime error detection.
-* 📍 Identify error type, line number, and error message.
-* 🤖 RAG-based error explanation and knowledge retrieval.
-* 📚 Custom-built programming error knowledge base.
-* 🧠 Semantic search using sentence-transformers embeddings.
-* ⚡ Fast retrieval using FAISS vector database.
-* 🔎 Auto-complete search for supported errors.
-* 📝 Structured Markdown-based error documentation.
-* 🐍 Python error support.
-* 🔧 Git error troubleshooting support.
-* 🌐 HTTP error troubleshooting support.
-* 📖 Provide solutions, examples, prevention tips, and documentation links.
-* 🌙 Dark mode user interface.
-* 📩 Allow requesting new errors for future knowledge expansion.
+- 🐍 Python syntax and runtime error detection.
+- 📍 Detect error type, line number, and error message.
+- 🤖 RAG-based error explanation and knowledge retrieval.
+- 🧠 Semantic search using sentence-transformers embeddings.
+- ⚡ Fast retrieval using the FAISS vector database.
+- 📚 Custom Markdown-based programming error knowledge base.
+- 🔎 Auto-complete search for supported errors.
+- 🔧 Support for Python, Git, and HTTP troubleshooting.
+- 📖 Provide solutions, examples, prevention tips, related errors, and official documentation references.
+- 🌙 Dark mode user interface.
+- 📩 Allow users to request new errors for future knowledge base expansion.
 
 
 ---
@@ -129,21 +123,12 @@ The project uses a custom structured error knowledge base, embeddings, and FAISS
 * sentence-transformers/all-MiniLM-L6-v2
 * FAISS Vector Database
 * Hugging Face Embeddings
-* LangChain Community
 * Markdown-based Knowledge Base
-
-
-## Data & Storage
-
-* FAISS Vector Database
-* Custom Markdown Knowledge Base
 
 
 ## Libraries & Tools
 
 * LangChain
-* Hugging Face Embeddings
-* Marked.js
 * Fetch API
 
 
@@ -193,8 +178,8 @@ DevAssist-AI
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/DevAssist-AI.git
-````
+git clone https://github.com/KenzyElshazly2005/DevAssist-AI.git
+```
 
 Navigate to the project folder:
 
@@ -223,6 +208,7 @@ pip install -r requirements.txt
 ```
 
 Build the vector databases:
+This step creates FAISS vector databases from the knowledge base documents.
 
 ```bash
 python build_database.py
@@ -283,16 +269,16 @@ http://127.0.0.1:5000
 
 # 📸 Demo
 
-Add screenshots, GIFs, or a demo video showing:
+A short demonstration of DevAssist AI Version 1:
 
-* DevAssist AI interface.
-* Error autocomplete search.
-* Python error search.
-* Git and HTTP troubleshooting.
-* Python code analysis.
-* RAG-based error explanation.
-* Retrieved troubleshooting information.
----
+- Python error search and analysis.
+- User description error detection.
+- Python code analysis.
+- Git troubleshooting.
+- HTTP error troubleshooting.
+
+Demo Video:
+[https://drive.google.com/file/d/1wIJcfd9duBcWol9ljI6TYuMlBpnKtzq1/view?usp=sharing]
 
 # 📈 Results
 
