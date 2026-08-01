@@ -20,6 +20,15 @@ const resetBtn = document.getElementById("resetBtn");
 const themeBtn = document.getElementById("themeBtn");
 
 
+const userInput = document.getElementById("userInput");
+
+const inputTitle = document.getElementById("inputTitle");
+
+const loader = document.getElementById("loader");
+
+const successMessage = document.getElementById("successMessage");
+
+let currentAnalysis = null;
 
 const errorSearchContainer =
     document.getElementById("errorSearchContainer");
@@ -29,7 +38,6 @@ const errorSearch =
 
 const suggestions =
     document.getElementById("suggestions");
-
 
 
 const toolSearchContainer =
@@ -43,16 +51,102 @@ const toolSuggestions =
 
 
 // ==========================================================
+// Placeholders
+// ==========================================================
+
+function updateInputPlaceholder() {
+
+    const selectedMode =
+        document.querySelector('input[name="mode"]:checked');
+
+
+    // Programming Languages
+    if (selectedMode) {
+
+        if (selectedMode.value === "code") {
+
+            inputTitle.innerText = "Your Code";
+
+            userInput.placeholder =
+                "Paste your Python code here...";
+
+        }
+
+        else {
+
+            inputTitle.innerText =
+                "Describe Your Problem";
+
+            userInput.placeholder =
+                "Describe your error or paste the error message here...";
+
+        }
+
+        return;
+
+    }
+
+
+    // Programming Tools
+    if (!toolSection.classList.contains("hidden")) {
+
+        inputTitle.innerText =
+            "Describe Your Problem";
+
+        userInput.placeholder =
+            "Describe your Git / HTTP problem here...";
+
+    }
+
+}
+
+
+function clearResult(){
+
+    resultSection.classList.add("hidden");
+
+    document.getElementById("resultTitle").innerText = "Result";
+
+    document.getElementById("description").innerHTML = "";
+    document.getElementById("causes").innerHTML = "";
+    document.getElementById("solution").innerHTML = "";
+    document.getElementById("example").innerHTML = "";
+    document.getElementById("prevention").innerHTML = "";
+    document.getElementById("related").innerHTML = "";
+    document.getElementById("documentation").innerHTML = "";
+
+    successMessage.classList.add("hidden");
+
+    loader.classList.add("hidden");
+
+    document.getElementById("analysisBox")
+        .classList.add("hidden");
+
+    document.getElementById("analysisError").textContent = "";
+
+    document.getElementById("analysisLine").textContent = "";
+
+    document.getElementById("analysisMessage").textContent = "";
+
+    currentAnalysis = null;
+
+}
+
+// ==========================================================
 // Auto Complete Data
 // ==========================================================
 
 let autoCompleteData = {};
+
+let autoCompleteLoaded = false;
 
 fetch("/static/autocomplete.json")
     .then(response => response.json())
     .then(data => {
 
         autoCompleteData = data;
+
+        autoCompleteLoaded = true;
 
     });
 
@@ -64,24 +158,51 @@ fetch("/static/autocomplete.json")
 
 languageBtn.addEventListener("click", () => {
 
+    // Show Language Section
     languageSection.classList.remove("hidden");
 
+    // Hide Tool Section
     toolSection.classList.add("hidden");
 
+
+    // Reset Input Area
     inputSection.classList.add("hidden");
 
-    resultSection.classList.add("hidden");
+    // delete Results
+    clearResult();
 
-    toolSearchContainer.classList.add("hidden");
+    // Hide Searches
     errorSearchContainer.classList.add("hidden");
+    toolSearchContainer.classList.add("hidden");
 
+
+    // Reset Buttons
     analyzeBtn.style.display = "none";
 
+
+    // Clear Inputs
     errorSearch.value = "";
     toolSearch.value = "";
+    userInput.value = "";
 
+
+    // Hide Suggestions
     suggestions.style.display = "none";
     toolSuggestions.style.display = "none";
+
+
+    // Reset Mode Selection
+    document
+        .querySelectorAll('input[name="mode"]')
+        .forEach(radio => {
+
+            radio.checked = false;
+
+
+        });
+
+    updateInputPlaceholder();
+
 
 });
 
@@ -92,25 +213,54 @@ languageBtn.addEventListener("click", () => {
 
 toolBtn.addEventListener("click", () => {
 
+
+    // Show Tool Section
     toolSection.classList.remove("hidden");
 
+
+    // Hide Language Section
     languageSection.classList.add("hidden");
 
+
+    // Reset Input Area
     inputSection.classList.add("hidden");
 
-    toolSearchContainer.classList.add("hidden");
+
+    // delete Results
+    clearResult();
+
+
+    // Hide Searches
     errorSearchContainer.classList.add("hidden");
+    toolSearchContainer.classList.add("hidden");
 
-    resultSection.classList.add("hidden");
 
+    // Reset Button
     analyzeBtn.style.display = "none";
 
+
+    // Clear Inputs
     errorSearch.value = "";
     toolSearch.value = "";
+    userInput.value = "";
 
+
+    // Hide Suggestions
     suggestions.style.display = "none";
     toolSuggestions.style.display = "none";
 
+
+    // Reset Language Mode
+    document
+        .querySelectorAll('input[name="mode"]')
+        .forEach(radio => {
+
+            radio.checked = false;
+
+
+        });
+
+    updateInputPlaceholder();
 });
 
 
@@ -120,18 +270,37 @@ toolBtn.addEventListener("click", () => {
 
 languageSelect.addEventListener("change", () => {
 
-    if (languageSelect.value !== "") {
 
+    if(languageSelect.value !== ""){
+
+        clearResult();
+
+
+        // Keep only Analyze Mode visible
+        // User still has to choose:
+        // Error Message OR Code
+
+
+        // Hide old inputs
         inputSection.classList.add("hidden");
 
         errorSearchContainer.classList.add("hidden");
 
+
+        // Hide Analyze Button
         analyzeBtn.style.display = "none";
 
+
+        // Clear old search
         errorSearch.value = "";
-    suggestions.style.display = "none";
+
+
+        // Hide suggestions
+        suggestions.style.display = "none";
+
 
     }
+
 
 });
 
@@ -142,23 +311,45 @@ document
 
     radio.addEventListener("change", () => {
 
+        clearResult();
+
+
         if (radio.value === "error") {
 
+
+            // Show error search
             errorSearchContainer.classList.remove("hidden");
-            inputSection.classList.add("hidden");
-            analyzeBtn.style.display = "none";
 
 
-        }
-
-        else {
-
-            errorSearchContainer.classList.add("hidden");
+            // Show textarea too
             inputSection.classList.remove("hidden");
+
+
             analyzeBtn.style.display = "block";
 
 
         }
+
+
+        else {
+
+
+            // Hide error search
+            errorSearchContainer.classList.add("hidden");
+
+
+            // Show textarea for code
+            inputSection.classList.remove("hidden");
+
+
+            analyzeBtn.style.display = "block";
+
+
+        }
+
+
+        updateInputPlaceholder();
+
 
     });
 
@@ -171,30 +362,54 @@ document
 
 toolSelect.addEventListener("change", () => {
 
+
     if (toolSelect.value !== "") {
 
-        inputSection.classList.add("hidden");
+        clearResult();
 
         toolSearch.value = "";
+
         toolSuggestions.style.display = "none";
+
 
         toolSearchContainer.classList.remove("hidden");
 
-        analyzeBtn.style.display = "none";
 
-    } else {
+        inputSection.classList.remove("hidden");
+
+
+        analyzeBtn.style.display = "block";
+
+
+        updateInputPlaceholder();
+
+
+    }
+
+
+    else {
+
+        clearResult();
 
         inputSection.classList.add("hidden");
 
         toolSearch.value = "";
+
         toolSuggestions.style.display = "none";
 
+
         toolSearchContainer.classList.add("hidden");
+
         errorSearchContainer.classList.add("hidden");
+
 
         analyzeBtn.style.display = "none";
 
+        updateInputPlaceholder();
+
+
     }
+
 
 });
 
@@ -210,12 +425,11 @@ analyzeBtn.addEventListener("click", async () => {
         .trim();
 
     if (text === "") {
-
         alert("Please enter your input.");
-
         return;
-
     }
+
+    clearResult();
 
     let language;
     let input_type;
@@ -247,41 +461,87 @@ analyzeBtn.addEventListener("click", async () => {
 
     }
 
+    loader.classList.remove("hidden");
+
+    successMessage.classList.add("hidden");
+
     resultSection.classList.remove("hidden");
 
     document.getElementById("resultTitle").innerText = "Loading...";
 
-    const response = await fetch("/analyze", {
+    analyzeBtn.disabled = true;
+    analyzeBtn.innerText = "Analyzing...";
 
-        method: "POST",
+    try {
 
-        headers: {
+        const response = await fetch("/analyze", {
 
-            "Content-Type": "application/json"
+            method: "POST",
 
-        },
+            headers: {
 
-        body: JSON.stringify({
+                "Content-Type": "application/json"
 
-            language,
+            },
 
-            input_type,
+            body: JSON.stringify({
 
-            content: text
+                language,
 
-        })
+                input_type,
 
-    });
+                content: text
 
-    const data = await response.json();
+            })
 
-    if (!data.success) {
+        });
 
-        document.getElementById("resultTitle").innerText = "Error";
-        document.getElementById("description").innerHTML = data.message;
-        return;
+        const data = await response.json();
+
+        loader.classList.add("hidden");
+
+        analyzeBtn.disabled = false;
+
+        analyzeBtn.innerText = "Analyze";
+
+        if (!data.success) {
+
+            successMessage.classList.add("hidden");
+
+            document.getElementById("resultTitle").innerText = "Error";
+
+            document.getElementById("description").innerHTML =
+                data.message;
+
+            return;
+
+        }
+
+        successMessage.classList.remove("hidden");
+
+        showResult(data.result);
 
     }
+
+    catch (error) {
+
+        loader.classList.add("hidden");
+
+        analyzeBtn.disabled = false;
+
+        analyzeBtn.innerText = "Analyze";
+
+        successMessage.classList.add("hidden");
+
+        resultSection.classList.remove("hidden");
+
+        document.getElementById("resultTitle").innerText = "Connection Error";
+
+        document.getElementById("description").innerHTML =
+            "Unable to connect to the server. Please try again.";
+
+    }
+
 
     showResult(data.result);
 
@@ -311,7 +571,6 @@ resetBtn.addEventListener("click", () => {
     languageSection.classList.add("hidden");
     toolSection.classList.add("hidden");
     inputSection.classList.add("hidden");
-    resultSection.classList.add("hidden");
 
     errorSearch.value = "";
     toolSearch.value = "";
@@ -323,6 +582,8 @@ resetBtn.addEventListener("click", () => {
 
     suggestions.style.display = "none";
     toolSuggestions.style.display = "none";
+
+    clearResult();
 
 });
 
@@ -369,6 +630,10 @@ themeBtn.addEventListener("click", () => {
 function setupAutoComplete(input, suggestionBox, categoryGetter) {
 
     input.addEventListener("input", () => {
+
+        if (!autoCompleteLoaded) {
+            return;
+        }
 
         const value = input.value.toLowerCase().trim();
 
@@ -575,7 +840,13 @@ function showResult(result) {
 
 async function analyzeError(errorText) {
 
+    clearResult();
+
     resultSection.classList.remove("hidden");
+
+    loader.classList.remove("hidden");
+
+    successMessage.classList.add("hidden");
 
     document.getElementById("resultTitle").innerText = "Loading...";
 
@@ -599,7 +870,10 @@ async function analyzeError(errorText) {
 
     });
 
+
     const data = await response.json();
+
+    loader.classList.add("hidden");
 
     if (!data.success) {
 
@@ -611,8 +885,8 @@ async function analyzeError(errorText) {
 
     }
 
+    successMessage.classList.remove("hidden");
+
     showResult(data.result);
 
 }
-
-
